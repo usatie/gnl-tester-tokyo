@@ -6,15 +6,19 @@
 #    By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 09:49:28 by susami            #+#    #+#              #
-#    Updated: 2022/05/03 21:14:34 by susami           ###   ########.fr        #
+#    Updated: 2022/05/03 22:48:46 by susami           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 GNL_DIR			=	./..
-GNL_SRCS		=	$(GNL_DIR)/get_next_line.c\
+M_SRCS			=	$(GNL_DIR)/get_next_line.c\
 					$(GNL_DIR)/get_next_line_utils.c
-GNL_OBJS		=	$(GNL_SRCS:$(GNL_DIR)/%.c=%.o)
-GNL_HEADER		=	$(GNL_DIR)/get_next_line.h
+M_OBJS			=	$(M_SRCS:$(GNL_DIR)/%.c=%.o)
+M_HEADER		=	$(GNL_DIR)/get_next_line.h
+B_SRCS			=	$(GNL_DIR)/get_next_line_bonus.c\
+					$(GNL_DIR)/get_next_line_utils_bonus.c
+B_OBJS			=	$(B_SRCS:$(GNL_DIR)/%.c=%.o)
+B_HEADER		=	$(GNL_DIR)/get_next_line_bonus.h
 
 NAME			=	run-test
 LIBASSERT_DIR	=	./libs/libassert/
@@ -36,6 +40,22 @@ all:
 	@#This test is slow so please run it alone
 	@#make m1G
 
+m:
+	make -C $(LIBASSERT_DIR)
+	make m1
+	make m42
+	make m10M
+	@#This test is slow so please run it alone
+	@#make m1G
+
+b:
+	make -C $(LIBASSERT_DIR)
+	make b1
+	make b42
+	make b10M
+	@#This test is slow so please run it alone
+	@#make b1G
+
 m1: SIZE = 1
 m1: $(LIBASSERT) mandatory
 m42: SIZE = 42
@@ -45,10 +65,10 @@ m10M: $(LIBASSERT) mandatory
 m1G: SIZE = 1000000000
 m1G: $(LIBASSERT) mandatory
 
-mandatory: $(SRCS) $(GNL_SRCS)
+mandatory: $(SRCS) $(M_SRCS)
 	@$(RM) $(ERROR_LOG).$(SIZE)
-	$(CC) $(GNL_SRCS) -c $(CFLAGS) -D BUFFER_SIZE=$(SIZE)
-	$(CC) $(SRCS) $(LIBASSERT) $(GNL_OBJS) -o $(NAME) $(CFLAGS) -D BUFFER_SIZE=$(SIZE)
+	$(CC) $(M_SRCS) -c $(CFLAGS) -D BUFFER_SIZE=$(SIZE)
+	$(CC) $(SRCS) $(LIBASSERT) $(M_OBJS) -o $(NAME) $(CFLAGS) -D BUFFER_SIZE=$(SIZE)
 	./run-test <files/alternate_line_nl_with_nl 2>>$(ERROR_LOG).$(SIZE)
 	@find . -name $(ERROR_LOG).$(SIZE) -size 0 -exec rm {} \;
 	@[ ! -f $(ERROR_LOG).$(SIZE) ] &&\
@@ -57,11 +77,32 @@ mandatory: $(SRCS) $(GNL_SRCS)
 		printf "\e[31m\n\n------------------------------------------------------------\
 		\nSome tests failed. Please see $(ERROR_LOG).$(SIZE) for more detailed information.\n\e[m"
 
+b1: SIZE = 1
+b1: $(LIBASSERT) bonus
+b42: SIZE = 42
+b42: $(LIBASSERT) bonus
+b10M: SIZE = 10000000
+b10M: $(LIBASSERT) bonus
+b1G: SIZE = 1000000000
+b1G: $(LIBASSERT) bonus
+
+bonus: $(SRCS) $(B_SRCS)
+	@$(RM) $(ERROR_LOG).$(SIZE)
+	$(CC) $(B_SRCS) -c $(CFLAGS) -D BUFFER_SIZE=$(SIZE)
+	$(CC) $(SRCS) $(LIBASSERT) $(B_OBJS) -o $(NAME) $(CFLAGS) -D BUFFER_SIZE=$(SIZE)
+	./run-test <files/alternate_line_nl_with_nl 2>>$(ERROR_LOG).$(SIZE)
+	@find . -name $(ERROR_LOG).$(SIZE) -size 0 -exec rm {} \;
+	@[ ! -f $(ERROR_LOG).$(SIZE) ] &&\
+		printf "\e[32m\n\n------------------------------------------------------------\
+		\n[BONUS PARTS(BUFFER_SIZE=$(SIZE))] All tests passed successfully! Congratulations :D\n\e[m" ||\
+		printf "\e[31m\n\n------------------------------------------------------------\
+		\nSome tests failed. Please see $(ERROR_LOG).$(SIZE) for more detailed information.\n\e[m"
+
 $(LIBASSERT):
 	$(MAKE) -C $(LIBASSERT_DIR)
 
 clean:
-	$(RM) $(ERROR_LOG).* $(GNL_OBJS)
+	$(RM) $(ERROR_LOG).* $(M_OBJS)
 	$(MAKE) -C ./libs/libassert clean
 
 fclean: clean
