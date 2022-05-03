@@ -6,7 +6,7 @@
 #    By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 09:49:28 by susami            #+#    #+#              #
-#    Updated: 2022/05/03 22:48:46 by susami           ###   ########.fr        #
+#    Updated: 2022/05/03 23:20:34 by susami           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,8 @@ SRCS			=	srcs/main.c
 .PHONY: m1 m42 m10M m1G mandatory all clean fclean re norm
 all:
 	make -C $(LIBASSERT_DIR)
-	make m1
-	make m42
-	make m10M
-	@#This test is slow so please run it alone
-	@#make m1G
+	make m
+	make b
 
 m:
 	make -C $(LIBASSERT_DIR)
