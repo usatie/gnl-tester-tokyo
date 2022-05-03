@@ -6,7 +6,7 @@
 #    By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 09:49:28 by susami            #+#    #+#              #
-#    Updated: 2022/05/03 11:06:57 by susami           ###   ########.fr        #
+#    Updated: 2022/05/03 11:26:48 by susami           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,5 @@ fclean: clean
 re: fclean all
 
 norm:
-	@echo "------------------------------Checking included headers------------------------------"
-	cat $(GNL_DIR)/*.c | egrep '<*.h>|\.c' | grep -B 1 '<*.h>' || printf "\e[32mheader inclusion OK :D\n\e[m"
 	@echo "------------------------------Checking norminette------------------------------"
 	norminette $(GNL_DIR)/*.c $(GNL_DIR)/*.h | grep -v "OK!" || printf "\e[32mnorminette OK :D\e[m"
