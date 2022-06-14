@@ -6,7 +6,7 @@
 #    By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 09:49:28 by susami            #+#    #+#              #
-#    Updated: 2022/06/14 14:34:03 by susami           ###   ########.fr        #
+#    Updated: 2022/06/14 14:37:19 by susami           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ m:
 	make m1
 	make m42
 	make m10M
+	make mecho
 	@#This test is slow so please run it alone
 	@#make m1G
 
@@ -51,6 +52,7 @@ b:
 	make b1
 	make b42
 	make b10M
+	make becho
 	@#This test is slow so please run it alone
 	@#make b1G
 
