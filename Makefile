@@ -6,7 +6,7 @@
 #    By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 09:49:28 by susami            #+#    #+#              #
-#    Updated: 2022/06/14 14:37:19 by susami           ###   ########.fr        #
+#    Updated: 2022/06/14 14:41:45 by susami           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,11 +112,11 @@ $(LIBASSERT):
 	$(MAKE) -C $(LIBASSERT_DIR)
 
 clean:
-	$(RM) $(ERROR_LOG).* $(M_OBJS)
+	$(RM) $(ERROR_LOG).* $(M_OBJS) $(B_OBJS)
 	$(MAKE) -C ./libs/libassert clean
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME_ECHO)
 	$(MAKE) -C ./libs/libassert fclean
 
 re: fclean all
