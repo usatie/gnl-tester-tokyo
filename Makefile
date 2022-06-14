@@ -6,7 +6,7 @@
 #    By: susami <susami@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/15 09:49:28 by susami            #+#    #+#              #
-#    Updated: 2022/05/03 23:20:34 by susami           ###   ########.fr        #
+#    Updated: 2022/06/14 14:34:03 by susami           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ B_OBJS			=	$(B_SRCS:$(GNL_DIR)/%.c=%.o)
 B_HEADER		=	$(GNL_DIR)/get_next_line_bonus.h
 
 NAME			=	run-test
+NAME_ECHO		=	gnl-echo
 LIBASSERT_DIR	=	./libs/libassert/
 LIBASSERT		=	$(LIBASSERT_DIR)libassert.a
 LIBS			= 	./libs/*/*.a
@@ -31,7 +32,7 @@ CFLAGS			=	-Wall -Wextra -Werror -fsanitize=address -I $(INCS) -I $(GNL_DIR)
 ERROR_LOG		=	error.log
 SRCS			=	srcs/main.c
 
-.PHONY: m1 m42 m10M m1G mandatory all clean fclean re norm
+.PHONY: m1 m42 m10M m1G echo mandatory all clean fclean re norm
 all:
 	make -C $(LIBASSERT_DIR)
 	make m
@@ -94,6 +95,16 @@ bonus: $(SRCS) $(B_SRCS)
 		\n[BONUS PARTS(BUFFER_SIZE=$(SIZE))] All tests passed successfully! Congratulations :D\n\e[m" ||\
 		printf "\e[31m\n\n------------------------------------------------------------\
 		\nSome tests failed. Please see $(ERROR_LOG).$(SIZE) for more detailed information.\n\e[m"
+
+ECHO_SRCS	=	srcs/gnl_echo.c
+
+mecho: $(ECHO_SRCS) $(M_OBJS)
+	$(CC) $(ECHO_SRCS) $(M_OBJS) -o $(NAME_ECHO) $(CFLAGS)
+	./gnl_echo_test.sh
+
+becho: $(ECHO_SRCS) $(B_OBJS)
+	$(CC) $(ECHO_SRCS) $(B_OBJS) -o $(NAME_ECHO) $(CFLAGS)
+	./gnl_echo_test.sh
 
 $(LIBASSERT):
 	$(MAKE) -C $(LIBASSERT_DIR)
